@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mobile Verification | Stationery Store</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(120deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    background: #fff;
+    width: 380px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+
+  .card h2 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .card p {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #4facfe;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #008cff;
+  }
+
+  #otp-section {
+    display: none;
+  }
+
+  #msg {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .brand {
+    font-weight: bold;
+    font-size: 20px;
+    color: #4facfe;
+    margin-bottom: 5px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="brand">📚 Stationery Store</div>
+  <h2>Mobile Verification</h2>
+  <p>Login securely using OTP</p>
+
+  <input type="text" id="phone" placeholder="+91XXXXXXXXXX">
+
+  <div id="recaptcha-container"></div>
+
+  <button onclick="sendOTP()">Send OTP</button>
+
+  <div id="otp-section">
+    <input type="text" id="otp" placeholder="Enter OTP">
+    <button onclick="verifyOTP()">Verify OTP</button>
+  </div>
+
+  <p id="msg"></p>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCL4NefGa709UUpDGvCxGVDNfsR3l5gFmM",
+  authDomain: "stationery-auth.firebaseapp.com",
+  projectId: "stationery-auth",
+  appId: "1:1071819486020:web:820e9ab3a4a8b17799dd11"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+/* reCAPTCHA */
+window.recaptchaVerifier = new RecaptchaVerifier(
+  auth,
+  "recaptcha-container",
+  {
+    size: "normal"
+  }
+);
+
+/* SEND OTP */
+window.sendOTP = async () => {
+  const phone = document.getElementById("phone").value;
+  document.getElementById("msg").innerText = "Sending OTP...";
+
+  try {
+    window.confirmationResult =
+      await signInWithPhoneNumber(auth, phone, window.recaptchaVerifier);
+
+    document.getElementById("otp-section").style.display = "block";
+    document.getElementById("msg").innerText = "OTP sent successfully ✔";
+  } catch (err) {
+    document.getElementById("msg").innerText = err.message;
+  }
+};
+
+/* VERIFY OTP */
+window.verifyOTP = async () => {
+  const otp = document.getElementById("otp").value;
+
+  try {
+    await window.confirmationResult.confirm(otp);
+    document.getElementById("msg").innerText =
+      "Mobile verified! Redirecting...";
+
+    setTimeout(() => {
+      window.location.href = "products.html";
+    }, 1500);
+  } catch (err) {
+    document.getElementById("msg").innerText = "Invalid OTP ❌";
+  }
+};
+</script>
+
+</body>
+</html>

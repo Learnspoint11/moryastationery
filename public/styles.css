@@ -1,0 +1,169 @@
+body {
+  .page-bg {
+  
+  background-size: cover;
+  min-height: 100vh;
+}
+  /* fills empty areas */
+}
+
+header { background:#f4f4f4; padding:16px; text-align:center; position:sticky; top:0; z-index:1000; }
+nav a { margin:0 8px; text-decoration:none; color:#333; }
+main { padding:20px; max-width:1000px; margin:auto; }
+.products-grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
+.product-card { border:1px solid #ddd; padding:12px; border-radius:8px; text-align:center; }
+.cart-bar { position:fixed; right:20px; bottom:20px; }
+/* Centered modal */
+.modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  z-index: 2000;
+}
+
+/* Bigger cart modal */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 600px;         /* ✅ increased width */
+  max-width: 90%;       /* stays responsive */
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.modal-content { background:#fff; padding:20px; border-radius:8px; min-width:300px; max-width:90%; }
+.order-card { border:1px solid #ddd; padding:12px; margin-bottom:12px; border-radius:8px; }
+.order-card img { vertical-align:middle; margin-right:8px; }
+/* ===== RESET ===== */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== HEADER ===== */
+header {
+  text-align: center;
+  padding: 12px 0;
+  background: #ffffff;
+}
+
+header nav a {
+  margin: 0 8px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+/* ===== HERO (HALF SCREEN SLIDER) ===== */
+.hero {
+  height: 50vh;
+  width: 100vw;
+}
+
+.slider {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  width: 300vw;
+  height: 100%;
+  animation: slide 12s infinite;
+}
+
+.slides img {
+  width: 100vw;
+  height: 100%;
+  object-fit: contain; /* full image visible */
+  background: #fff;
+}
+
+/* SLIDE ANIMATION */
+@keyframes slide {
+  0%, 30% { transform: translateX(0); }
+  35%, 65% { transform: translateX(-100vw); }
+  70%, 100% { transform: translateX(-200vw); }
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #222;
+  color: #fff;
+  text-align: center;
+}
+
+.footer-links {
+  padding: 15px 0;
+}
+
+.footer-links a {
+  color: #fff;
+  margin: 0 12px;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.copyright {
+  background: #111;
+  padding: 10px;
+  font-size: 14px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .hero {
+    height: 40vh;
+  }
+
+  header nav a {
+    display: inline-block;
+    margin: 5px;
+  }
+}
+/* ===== CENTERED NAVIGATION ===== */
+.top-nav {
+  display: flex;
+  justify-content: center;   /* 🔥 CENTER */
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* ===== SQUARE BUTTON LINKS ===== */
+.nav-btn {
+  padding: 8px 18px;
+  border: 1.5px solid #111;
+  border-radius: 6px; /* square look */
+  text-decoration: none;
+  font-size: 14px;
+  color: #111;
+  background: #fff;
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.nav-btn:hover {
+  background: #111;
+  color: #fff;
+}
+
+/* Active (Home) */
+.nav-btn:first-child {
+  background: #111;
+  color: #fff;
+}

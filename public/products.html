@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Products - Morya Stationery Store</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Our Products</h1>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="products.html">Products</a> |
+      <a href="order.html">My Orders</a> |
+      <a href="login.html" id="loginLink">Login</a> |
+      <a href="register.html">Register</a> |
+      <a href="#" id="logoutLink" style="display:none;">Logout</a>
+    </nav>
+  </header>
+  <main id="productsGrid" class="products-grid"></main>
+
+  <div class="cart-bar">
+    <button id="viewCartBtn">View Cart (<span id="cartCount">0</span>)</button>
+  </div>
+
+  <div id="cartModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h3>Your Cart</h3>
+      <div id="cartItems"></div>
+      <div id="cartTotal"></div>
+      <button id="checkoutBtn">Checkout (Place Order)</button>
+      <button id="closeCartBtn">Close</button>
+    </div>
+  </div>
+
+  <div id="paymentModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h3>Payment</h3>
+      <label><input type="radio" name="payment" value="COD" checked> Cash on Delivery</label><br>
+      <label><input type="radio" name="payment" value="Card"> Card Payment</label>
+      <div id="cardForm" style="display:none; margin-top:10px;">
+        <input type="text" id="cardNumber" placeholder="Card Number (16 digits)"><br>
+        <input type="text" id="expiry" placeholder="MM/YY"><br>
+        <input type="text" id="cvv" placeholder="CVV (3 digits)"><br>
+      </div>
+      <button id="confirmPaymentBtn">Confirm Payment</button>
+      <button id="cancelPaymentBtn">Cancel</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

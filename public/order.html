@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Orders - Stationery Store</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>My Orders</h1>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="products.html">Products</a> |
+      <a href="about.html">About</a> |
+      <a href="contact.html">Contact</a> |
+      <a href="order.html">My Orders</a> |
+      <a href="login.html" id="loginLink">Login</a> |
+      <a href="register.html">Register</a> |
+      <a href="#" id="logoutLink" style="display:none;">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Your Order History</h2>
+    <div id="ordersList">Loading...</div>
+  </main>
+  <script>
+    async function loadOrders(){
+      try{
+        const res = await fetch(`${API_BASE}/api/orders`, { credentials: 'include' }); // ✅ fix
+        if(res.status===401){
+          document.getElementById('ordersList').textContent = 'Please login to view orders.';
+          return;
+        }
+        const orders = await res.json();
+        if(orders.length===0){
+          document.getElementById('ordersList').textContent = 'No orders found.';
+          return;
+        }
+        const container = document.getElementById('ordersList');
+        container.innerHTML = '';
+        orders.forEach(order=>{
+          const div = document.createElement('div');
+          div.className = 'order-card';
+          let itemsHtml = order.items.map(i=>
+            `<li>${i.productId?.name || 'Product'} x ${i.quantity} = ₹${i.quantity * (i.productId?.price || 0)}</li>`
+          ).join('');
+          div.innerHTML = `
+            <h3>Order #${order._id}</h3>
+            <ul>${itemsHtml}</ul>
+            <p>Payment: ${order.paymentMethod}</p>
+            <p>Total: ₹${order.items.reduce((s,i)=>s+i.quantity*(i.productId?.price||0),0)}</p>
+            <hr>
+          `;
+          container.appendChild(div);
+        });
+      }catch(err){ console.error(err); }
+    }
+    loadOrders();
+  </script>
+</body>
+</html>

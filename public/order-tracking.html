@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Tracking - Morya Stationery Store</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+
+  <style>
+    #map {
+      height: 380px;
+      width: 100%;
+      margin-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Morya Stationery Store</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="order.html">My Orders</a>
+    <a href="order-tracking.html">Track Order</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="login.html" id="loginLink">Login</a>
+  </nav>
+</header>
+
+<main>
+  <h2>Track Your Order</h2>
+
+  <form id="trackForm">
+    <label for="orderId">Enter Order ID:</label>
+    <input type="text" id="orderId" name="orderId" required>
+    <button type="submit">Track</button>
+  </form>
+
+  <div id="trackingResult" style="margin-top:20px;"></div>
+
+  <!-- 📍 MAP AT BOTTOM -->
+  <div id="map"></div>
+</main>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Map Logic -->
+<script>
+  const map = L.map('map').setView([20.5937, 78.9629], 5); // India default
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  let marker;
+
+  function updateMap(status) {
+    let location;
+    let message;
+
+    if (status === "Order Placed") {
+      location = [19.0760, 72.8777]; // Store
+      message = "Order placed at store 🏪";
+    } 
+    else if (status === "Out for Delivery") {
+      location = [18.5204, 73.8567]; // On the way
+      message = "Out for delivery 🚚";
+    } 
+    else if (status === "Delivered") {
+      location = [18.6298, 73.7997]; // Customer
+      message = "Order delivered ✅";
+    }
+
+    if (marker) map.removeLayer(marker);
+
+    marker = L.marker(location)
+      .addTo(map)
+      .bindPopup(message)
+      .openPopup();
+
+    map.setView(location, 13);
+  }
+
+  // 🔧 DEMO (remove when backend connected)
+  updateMap("Order Placed");
+</script>
+
+<!-- ❗ DO NOT TOUCH -->
+<script src="script.js"></script>
+
+</body>
+</html>
