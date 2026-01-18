@@ -4,6 +4,7 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const axios = require('axios');
 const cors = require('cors');
+const path = require('path'); // ✅ added (required)
 
 // Models
 const User = require('./models/User');
@@ -31,7 +32,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false   // Render handles HTTPS
+    secure: false
   }
 }));
 
@@ -40,14 +41,13 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log("MongoDB Error:", err));
 
-/* ================= ROOT ROUTE (FIXED) ================= */
+/* ======== WEBSITE FIX (ONLY CHANGE) ======== */
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
-  res.status(200).json({
-    status: "OK",
-    message: "Morya Stationery Backend is running 🚀"
-  });
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-/* ===================================================== */
+/* ========================================= */
 
 // ---------------- OTP SMS FUNCTION ----------------
 async function sendOtpSMS(mobile, otp) {
@@ -182,10 +182,7 @@ app.post('/api/order', otpVerified, async (req, res) => {
 });
 
 app.get('/api/orders', otpVerified, async (req, res) => {
-  res.json(
-    await Order.find({ userId: req.session.userId })
-      .sort({ createdAt: -1 })
-  );
+  res.json(await Order.find({ userId: req.session.userId }).sort({ createdAt: -1 }));
 });
 
 // ---------------- START SERVER ----------------
