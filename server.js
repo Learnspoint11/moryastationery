@@ -27,12 +27,10 @@ app.use(session({
 }));
 
 // ---------------- MONGODB ----------------
-mongoose.connect('mongodb://localhost:27017/stationery', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB error:', err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log("MongoDB Error:", err));
+;
 
 // ---------------- OTP SMS FUNCTION ----------------
 async function sendOtpSMS(mobile, otp) {
