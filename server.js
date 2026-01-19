@@ -22,10 +22,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-  origin: "*",
+  origin: [
+    "https://moryastationery.onrender.com",
+    "https://moryastationery.netlify.app"
+  ],
   credentials: true
 }));
-
+app.use('/images', express.static('public/images'));
 // ---------------- SESSION ----------------
 app.use(session({
   secret: process.env.SESSION_SECRET || "render-session-secret",
